@@ -1,14 +1,18 @@
 # Wikipedia Search: UI Test Automation
 
-A learning project: manual test cases for Wikipedia's search field, automated
-with **Python + Playwright + pytest**, running on **GitHub Actions**.
+A learning project: BDD test scenarios for Wikipedia's search field, written in
+**Gherkin** (Given / When / Then) and automated with **Python + Playwright +
+pytest-bdd**, running on **GitHub Actions**.
+
+pytest-bdd is the Python equivalent of Cucumber: same `.feature` files, same
+Gherkin syntax.
 
 ## What's inside
 
 | Path                          | What it is                                               |
 |-------------------------------|----------------------------------------------------------|
-| `docs/test_cases.md`          | Manual test cases (steps + expected results)             |
-| `tests/test_search.py`        | The same test cases, automated                           |
+| `features/search.feature`    | The test scenarios in Gherkin (positive / negative / boundary) |
+| `tests/test_search_steps.py`  | Step definitions: the code behind each Given/When/Then line |
 | `pages/search_page.py`        | Page Object: where the search box, results etc. are found |
 | `conftest.py`, `pytest.ini`   | Test settings (window size, screenshots on failure)      |
 | `.github/workflows/tests.yml` | Runs all tests on GitHub on every push                   |
@@ -31,7 +35,9 @@ playwright install chromium
 pytest -v                    # all tests, browser hidden
 pytest -v --headed           # watch the browser do it
 pytest -v --headed --slowmo 500   # watch it, slowed down
-pytest -v -k tc03            # run only one test case
+pytest -v -m positive        # only scenarios tagged @positive
+pytest -v -m "negative or boundary"
+pytest -v -k suggestions     # only scenarios with "suggestions" in the name
 ```
 
 If a test fails, look in the `test-results/` folder: there's a screenshot and a

@@ -22,6 +22,9 @@ class WikipediaSearchPage:
         self.heading: Locator = page.locator("#firstHeading")
         # Each item on the "Search results" page.
         self.results: Locator = page.locator(".mw-search-result")
+        # Remembers the text of any alert/confirm pop-up, then closes it.
+        self.popups: list[str] = []
+        page.on("dialog", lambda dialog: (self.popups.append(dialog.message), dialog.dismiss()))
 
     def open(self) -> None:
         self.page.goto(f"{BASE_URL}/wiki/Main_Page")
